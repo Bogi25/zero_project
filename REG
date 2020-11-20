@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 user=$1
 pass=$2
@@ -8,12 +8,11 @@ echo $user
 echo $pass
 echo $perm
 
-if [[$user1<>"" ]]
+if [[$user<>"" ]]
 then
 sudo  mkdir -p /home/$user/ftp;
-sudo chown -R $user. /home/$user;
-sudo chmod -R go=$perm /home/$user;
-
+sudo chown -R $user. /home/$user/ftp;
+sudo chmod -R go=$perm /home/$user/ftp;
 
 sudo groupadd $user
 sudo useradd -p -m -d /home/$user -s /bin/bash -g $user $user;
@@ -21,26 +20,22 @@ sudo useradd -p -m -d /home/$user -s /bin/bash -g $user $user;
 (echo $user; echo $pass) | passwd $user;
 
 sudo echo 'Proverochni text' > /home/$user/ftp/proverka.txt;
-#echo "Имя пользователя записанно";
 
-#echo "$usere:$pass" | chpasswd;
 if [[$perm=r]]
 then
 sudo chown -R $user. /home/$user;
-sudo chmod -R go=rx /home/$user/ftp;
+sudo chmod -R 555 /home/$user/ftp;
+else
+fi
 if [[$perm=rw]]
 then
 sudo chown -R $user. /home/$user;
-sudo chmod -R go=rwx /home/$user/ftp;
-
+sudo chmod -R 777 /home/$user/ftp;
+else
+fi
 sudo echo $user >> /etc/vsftpd.userlist;
 sudo echo $user >> /etc/vsftpd.chroot_list;
-#sudo systemctl restart vsftpd
 
 sudo systemctl restart vsftpd
 else
-fi
-elso
-fi
-elso
 fi
